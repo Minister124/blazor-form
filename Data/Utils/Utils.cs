@@ -37,5 +37,27 @@
                 return message;
             }
         }
+
+        public static string HobbiesFilePath(){
+            string directoryPathCreated = ApplicationDirectoryPath();
+            string filePath = Path.Combine(directoryPathCreated, "Hobbies.json");
+            try
+            {
+                if (!File.Exists(filePath))
+                {
+                    File.Create(filePath).Close();
+                    return filePath;
+                }
+                else
+                {
+                    return filePath;
+                }
+            }
+            catch (Exception ex)
+            {
+                string message = ex.Message;
+                return message;
+            }
+        }
     }
 }

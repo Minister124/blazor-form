@@ -21,5 +21,7 @@ namespace Forms.Data.Models
         [Required(ErrorMessage = "Address is required")]
         [Display(Name = "Address")]
         public string Address { get; set; }
+
+        public List<Hobby> Hobbies {get; set;} = new List<Hobby>();
     }
 }
