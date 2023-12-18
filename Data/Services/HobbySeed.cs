@@ -27,7 +27,19 @@ public class HobbySeed
         SaveHobbiesToJson(sampleHobbies);
     }
 
-    public static List<Hobby> RetrieveFormData(IJSRuntime iJSRuntime){
-        
+    public static List<Hobby> RetrieveHobbiesData(){
+         string filePath = Utils.HobbiesFilePath();
+         try{
+            string existingJsonData = File.ReadAllText(filePath);
+            if (string.IsNullOrEmpty(existingJsonData))
+            {
+                return new List<Hobby>();
+            }
+            return JsonConvert.DeserializeObject<List<Hobby>>(existingJsonData);
+         }
+         catch(Exception ex){
+            Console.WriteLine($"Error reading JSON file: {ex.Message}");
+            return new List<Hobby>();
+         }
     }
 }

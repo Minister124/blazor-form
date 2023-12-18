@@ -14,7 +14,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var formData in Forms.Data.Services.FormData.RetrieveFormData(JSRuntime))
+        @foreach (var formData in FormData.RetrieveFormData(JSRuntime))
         {
             <tr>
                 <td>@formData.FirstName</td>
