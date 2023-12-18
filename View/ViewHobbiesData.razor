@@ -1,0 +1,26 @@
+﻿@page "/Hobbies"
+
+<h3>View Hobbies</h3>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var hobbiesData in HobbySeed.RetrieveHobbiesData()){
+            <tr>
+                <td>@hobbiesData.Id</td>
+                <td>@hobbiesData.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@code{
+    protected override void OnInitialized(){
+        HobbySeed.InjectSampleHobbiesData();
+        base.OnInitialized();
+    }
+}
+
