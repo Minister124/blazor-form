@@ -28,6 +28,7 @@ public class FormData
         }
         catch(Exception ex)
         {
+            //await App.Current.MainPage.DisplayAlert("Form Added", "Form Added To Json", "OK");
             await jsRuntime.InvokeAsync<object>("alert", new object[] { $"Error saving form data: {ex.Message}" });
         }
     }
@@ -48,6 +49,7 @@ public class FormData
         catch (Exception ex)
         {
             Console.WriteLine($"Error reading JSON file: {ex.Message}");
+            //App.Current.MainPage.DisplayAlert("Error", "Error Retrieving Data from Json", "OK");
             jsRuntime.InvokeAsync<object>("alert", $"Error reading JSON file: {ex.Message}");
             return new List<Form>();
         }
