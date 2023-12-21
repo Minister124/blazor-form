@@ -42,4 +42,18 @@ public class HobbySeed
             return new List<Hobby>();
          }
     }
+    public static Hobby GetHobbyById(Guid id){
+        List<Hobby> hobbies = RetrieveHobbiesData();
+        return hobbies.FirstOrDefault(x => x.Id == id);
+    }
+    public static List<Hobby> EditHobby(Guid id, string newName){
+        Hobby editHobby = GetHobbyById(id);
+        if(editHobby == null){
+            throw new Exception("Hobby not found");
+        }
+        editHobby.Name = newName;
+        List<Hobby> hobbies = RetrieveHobbiesData();
+        SaveHobbiesToJson(hobbies);
+        return hobbies;
+    }
 }

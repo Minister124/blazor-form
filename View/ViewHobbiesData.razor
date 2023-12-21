@@ -6,6 +6,7 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -13,14 +14,30 @@
             <tr>
                 <td>@hobbiesData.Id</td>
                 <td>@hobbiesData.Name</td>
+                <td>
+                    <button type="submit" @onclick="@(()=>EditHobby(hobbiesData.Id))" class="btn btn-primary">Edit</button>
+                </td> 
             </tr>
         }
     </tbody>
 </table>
 @code{
+    [Inject]
+    private NavigationManager NManager {get; set;}
     protected override void OnInitialized(){
         HobbySeed.InjectSampleHobbiesData();
         base.OnInitialized();
+    }
+    public void EditHobby(Guid id)
+    {
+        try
+        {
+            NManager.NavigateTo($"/EditHobby/{id}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error Navigating:{ex.Message}");
+        }
     }
 }
 
