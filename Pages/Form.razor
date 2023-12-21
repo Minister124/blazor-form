@@ -1,4 +1,5 @@
 ﻿@page "/form"
+@inject NavigationManager NavigationManager
 
 <EditForm Model="@form" OnValidSubmit="@HandleSubmit">
     <DataAnnotationsValidator/>
@@ -34,6 +35,8 @@
     {
         await formData.SaveFormDataInJson(form, JSRuntime);
         form = new Data.Models.Form();
+        NavigationManager.NavigateTo("/formData");
+        //await App.Current.MainPage.DisplayAlert("Form Added", "Form Added To Json", "OK");
         await JSRuntime.InvokeVoidAsync("showNotification", "Form submitted successfully!");
     }
 }

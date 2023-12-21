@@ -1,0 +1,29 @@
+﻿@page "/EditHobby/{Id:guid}"
+
+<h3>EditHobby</h3>
+
+<EditForm Model="@hobby" OnValidSubmit="@HandleSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="form-group">
+        <label for="Name">Name:</label>
+        <InputText id="Name" class="form-control" @bind-Value="hobby.Name" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</EditForm>
+
+@code {
+    [Parameter]
+    public Guid Id {get; set;}
+    public Hobby hobby;
+
+    protected override void OnInitialized(){
+        hobby = HobbySeed.GetHobbyById(Id);
+        base.OnInitialized();
+    }
+
+    public void HandleSubmit(){
+
+    }
+}
