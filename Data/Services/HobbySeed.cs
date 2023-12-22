@@ -14,17 +14,21 @@ public class HobbySeed
 
     public static void InjectSampleHobbiesData()
     {
-        List<Hobby> sampleHobbies = new List<Hobby>
-        {
-            new Hobby { Name = "Reading" },
-            new Hobby { Name = "Cooking" },
-            new Hobby { Name = "Gardening" },
-            new Hobby { Name = "Coding" },
-            new Hobby { Name = "Dancing"},
-            new Hobby { Name = "Singing"},
-            new Hobby { Name = "Travelling"},
-        };
-        SaveHobbiesToJson(sampleHobbies);
+        string filePath = Utils.HobbiesFilePath();
+        var existingData = File.ReadAllText(filePath);
+        if(string.IsNullOrEmpty(existingData)){
+            List<Hobby> sampleHobbies = new List<Hobby>
+            {
+                new Hobby { Name = "Reading" },
+                new Hobby { Name = "Cooking" },
+                new Hobby { Name = "Gardening" },
+                new Hobby { Name = "Coding" },
+                new Hobby { Name = "Dancing"},
+                new Hobby { Name = "Singing"},
+                new Hobby { Name = "Travelling"},
+            };
+            SaveHobbiesToJson(sampleHobbies);
+        }
     }
 
     public static List<Hobby> RetrieveHobbiesData(){
@@ -42,17 +46,15 @@ public class HobbySeed
             return new List<Hobby>();
          }
     }
-    public static Hobby GetHobbyById(Guid id){
-        List<Hobby> hobbies = RetrieveHobbiesData();
-        return hobbies.FirstOrDefault(x => x.Id == id);
-    }
     public static List<Hobby> EditHobby(Guid id, string newName){
-        Hobby editHobby = GetHobbyById(id);
+        List<Hobby> hobbies = RetrieveHobbiesData();
+        Hobby editHobby = hobbies.FirstOrDefault(x => x.Id == id);
+
         if(editHobby == null){
             throw new Exception("Hobby not found");
         }
+
         editHobby.Name = newName;
-        List<Hobby> hobbies = RetrieveHobbiesData();
         SaveHobbiesToJson(hobbies);
         return hobbies;
     }

@@ -17,13 +17,18 @@
     [Parameter]
     public Guid Id {get; set;}
     public Hobby hobby;
-
     protected override void OnInitialized(){
         hobby = HobbySeed.GetHobbyById(Id);
         base.OnInitialized();
     }
 
     public void HandleSubmit(){
-
+        try{
+            HobbySeed.EditHobby(Id, hobby.Name);
+            App.Current.MainPage.DisplayAlert("Success", "Data SuccessFully Edited", "Ok");
+        }
+        catch(Exception ex){
+            App.Current.MainPage.DisplayAlert("Error", $"Error Editing Hobbies:{ex.Message}","Ok");
+        }
     }
 }
