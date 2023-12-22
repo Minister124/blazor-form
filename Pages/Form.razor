@@ -21,6 +21,15 @@
         <InputText id="Phone" class="form-control" @bind-Value="form.PhoneNumber" />
     </div>
     <div class="form-group">
+        <label for="Hobbies">Hobbies:</label>
+        <InputSelect id="Hobbies" class="form-control" @bind-Value="form.Hobbies" multiple>
+            @foreach(var hobby in hobbies)
+            {
+                <option value="@hobby">@hobby.Name</option>
+            }
+        </InputSelect>
+    </div>
+    <div class="form-group">
         <label for="Address">Address:</label>
         <InputText id="Address" class="form-control" @bind-Value="form.Address" />
     </div>
@@ -28,11 +37,18 @@
 </EditForm>
 
 @code {
+    public List<Hobby> hobbies;
     Data.Models.Form form = new Data.Models.Form();
     Data.Services.FormData formData = new Data.Services.FormData();
 
+    protected override void OnInitialized()
+    {
+        hobbies = HobbySeed.RetrieveHobbiesData();
+        base.OnInitialized();
+    }
     public async Task HandleSubmit()
     {
+        form.Hobbies = form.Hobbies ?? new List<Hobby>();
         await formData.SaveFormDataInJson(form, JSRuntime);
         form = new Data.Models.Form();
         NavigationManager.NavigateTo("/formData");

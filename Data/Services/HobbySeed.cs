@@ -46,6 +46,11 @@ public class HobbySeed
             return new List<Hobby>();
          }
     }
+
+    public static Hobby GetHobbyById(Guid id){
+        List<Hobby> hobbies = RetrieveHobbiesData();
+        return hobbies.FirstOrDefault(x => x.Id == id);
+    }
     public static List<Hobby> EditHobby(Guid id, string newName){
         List<Hobby> hobbies = RetrieveHobbiesData();
         Hobby editHobby = hobbies.FirstOrDefault(x => x.Id == id);
