@@ -1,4 +1,5 @@
 ﻿@page "/EditHobby/{Id:guid}"
+@inject NavigationManager NavManager
 
 <h3>EditHobby</h3>
 
@@ -26,6 +27,7 @@
         try{
             HobbySeed.EditHobby(Id, hobby.Name);
             App.Current.MainPage.DisplayAlert("Success", "Data SuccessFully Edited", "Ok");
+            NavManager.NavigateTo("/Hobbies");
         }
         catch(Exception ex){
             App.Current.MainPage.DisplayAlert("Error", $"Error Editing Hobbies:{ex.Message}","Ok");
