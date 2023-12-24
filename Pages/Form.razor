@@ -21,34 +21,48 @@
         <InputText id="Phone" class="form-control" @bind-Value="form.PhoneNumber" />
     </div>
     <div class="form-group">
-        <label for="Hobbies">Hobbies:</label>
-        <InputSelect id="Hobbies" class="form-control" @bind-Value="form.Hobbies" multiple>
-            @foreach(var hobby in hobbies)
-            {
-                <option value="@hobby">@hobby.Name</option>
-            }
-        </InputSelect>
-    </div>
-    <div class="form-group">
         <label for="Address">Address:</label>
         <InputText id="Address" class="form-control" @bind-Value="form.Address" />
+    </div>
+    <div class="form-group">
+        <label for="Hobbies">Hobbies:</label>
+        <select id="Hobbies" class="form-control" multiple>
+            @foreach (var hobby in hobbies)
+            {
+                <option value="@hobby.Id">@hobby.Name</option>
+            }
+        </select>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
 </EditForm>
 
 @code {
-    public List<Hobby> hobbies;
+    public List<Hobby> hobbies = new List<Hobby>();
     Data.Models.Form form = new Data.Models.Form();
     Data.Services.FormData formData = new Data.Services.FormData();
+    private List<Guid> selectedHobbies = new List<Guid>();
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        hobbies = HobbySeed.RetrieveHobbiesData();
-        base.OnInitialized();
+        // Load hobbies in the OnInitializedAsync method
+        hobbies = await LoadAllHobbies();
     }
+
+    private async Task<List<Hobby>> LoadAllHobbies()
+    {
+        // Retrieve hobbies from your service or repository
+        return HobbySeed.RetrieveHobbiesData();
+    }
+
     public async Task HandleSubmit()
     {
-        form.Hobbies = form.Hobbies ?? new List<Hobby>();
+        var selectedHobbies = await JSRuntime.InvokeAsync<List<string>>("multiselect.getSelectedValues", "Hobbies");
+        form.Hobbies = selectedHobbies.Select(id =>
+        new Hobby
+            {
+                Id = Guid.Parse(id),
+                Name = hobbies.FirstOrDefault(h => h.Id == Guid.Parse(id))?.Name
+            }).ToList();
         await formData.SaveFormDataInJson(form, JSRuntime);
         form = new Data.Models.Form();
         NavigationManager.NavigateTo("/formData");

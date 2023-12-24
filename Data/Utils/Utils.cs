@@ -4,7 +4,7 @@
     { 
         public static string ApplicationDirectoryPath()
         {
-            string directoryPath = @"C:\Users\kusha\Desktop\IIC\Application Development\Self\Database";
+            string directoryPath = @"D:\IIC\Application Development\Self\Database";
             if (!Directory.Exists(directoryPath))
             {
                 Directory.CreateDirectory(directoryPath);

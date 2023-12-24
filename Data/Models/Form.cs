@@ -22,6 +22,6 @@ namespace Forms.Data.Models
         [Display(Name = "Address")]
         public string Address { get; set; }
 
-        public List<Hobby> Hobbies {get; set;} = new List<Hobby>();
+        public List<Hobby> Hobbies {get; set;}
     }
 }

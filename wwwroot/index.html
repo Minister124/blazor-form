@@ -28,6 +28,17 @@
             alert(message);
         };
     </script>
+    <script>
+        window.multiselect = {
+            getSelectedValues: (id) => {
+                var select = document.getElementById(id);
+                var selectedOptions = Array.from(select.options)
+                    .filter(option => option.selected)
+                    .map(option => option.value);
+                return selectedOptions;
+            }
+        };
+    </script>
 </body>
 
 </html>

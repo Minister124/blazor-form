@@ -11,6 +11,7 @@
             <th>Email</th>
             <th>Phone Number</th>
             <th>Address</th>
+            <th>Hobbies</th>
         </tr>
     </thead>
     <tbody>
@@ -22,6 +23,21 @@
                 <td>@formData.Email</td>
                 <td>@formData.PhoneNumber</td>
                 <td>@formData.Address</td>
+                <td>
+                    @if (formData.Hobbies != null && formData.Hobbies.Any())
+                    {
+                        <ul>
+                            @foreach (var hobby in formData.Hobbies)
+                            {
+                                <li>@hobby.Name</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>No hobbies</span>
+                    }
+                </td>
             </tr>
         }
     </tbody>
@@ -39,12 +55,29 @@
                 var pdf = new IronPdf.HtmlToPdf();
 
                 // Add table with headers
-                var tableHtml = "<table><thead><tr><th>First Name</th><th>Last Name</th><th>Email</th><th>Phone Number</th><th>Address</th></tr></thead><tbody>";
-
+                var tableHtml = "<table><thead><tr><th>First Name</th><th>Last Name</th><th>Email</th><th>Phone Number</th><th>Address</th><th>Hobbies</th></tr></thead><tbody>";
                 // Add data to the table
                 foreach (var formData in formDataList)
                 {
-                    tableHtml += $"<tr><td>{formData.FirstName}</td><td>{formData.LastName}</td><td>{formData.Email}</td><td>{formData.PhoneNumber}</td><td>{formData.Address}</td></tr>";
+                    tableHtml += "<tr>";
+                    tableHtml += $"<td>{formData.FirstName}</td><td>{formData.LastName}</td><td>{formData.Email}</td><td>{formData.PhoneNumber}</td><td>{formData.Address}</td>";
+                    tableHtml += "<td>";
+
+                    if (formData.Hobbies != null && formData.Hobbies.Any())
+                    {
+                        tableHtml += "<ul>";
+                        foreach (var hobby in formData.Hobbies)
+                        {
+                            tableHtml += $"<li>{hobby.Name}</li>";
+                        }
+                        tableHtml += "</ul>";
+                    }
+                    else
+                    {
+                        tableHtml += "<span>No hobbies</span>";
+                    }
+
+                    tableHtml += "</td></tr>";
                 }
 
                 tableHtml += "</tbody></table>";
@@ -54,7 +87,7 @@
                 var pdfStream = pdf.RenderHtmlAsPdf(tableHtml).Stream;
 
                 // Save the PDF to a file
-                string pdfPath = @"C:\Users\kusha\Desktop\IIC\Application Development\Self\Database\Pdfs";
+                string pdfPath = @"D:\IIC\Application Development\Self\Database\Pdfs";
 
                 using (var fileStream = new System.IO.FileStream(Path.Combine(pdfPath, "FormData.pdf"), System.IO.FileMode.Create))
                 {
